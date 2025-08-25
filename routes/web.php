@@ -24,6 +24,9 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+Route::get('/env-check', function () {
+    return env('APP_KEY');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

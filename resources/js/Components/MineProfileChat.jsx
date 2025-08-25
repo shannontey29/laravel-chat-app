@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProfilePictureOnChat from "@/Components/ProfilePictureOnChat.jsx";
 import { Link } from '@inertiajs/react';
+import UserMiniModal from "@/Components/ProfileModel";
 
 export default function MineProfileChat({ auth }) {
+    const [showModal, setShowModal] = useState(false);
     return (
         <>
             <div className="flex flex-row items-center justify-between px-3 py-2 pt-5">
                 <div className="flex items-center w-full pb-3">
-                    <div className="flex flex-row min-w-0 items-center justify-between space-x-3.5">
+                    <div
+                        className="flex flex-row min-w-0 items-center justify-between space-x-3.5 cursor-pointer"
+                        onClick={() => setShowModal(true)}
+                        title="View profile"
+                    >
                         <ProfilePictureOnChat user={auth.user} />
+                      
                         <div className="flex flex-col flex-1 min-w-0">
                             <span className="text-sm font-medium text-gray-100 truncate">
                                 {auth.user.name}
@@ -27,6 +34,9 @@ export default function MineProfileChat({ auth }) {
                     </Link>
                 </div>
             </div>
+            {showModal && (
+                            <UserMiniModal user={auth.user} onClose={() => setShowModal(false)} />
+            )}
         </>
     )
 }

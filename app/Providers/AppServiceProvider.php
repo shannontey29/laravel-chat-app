@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\Helper;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
                 'last_seen_at' => Helper::userLastActivityStatus($user->last_seen_at),
             ];
         });
+        Schema::defaultStringLength(191);
     }
 }
