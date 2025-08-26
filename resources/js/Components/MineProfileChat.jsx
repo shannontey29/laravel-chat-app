@@ -19,6 +19,26 @@ export default function MineProfileChat({ auth }) {
                         </div>
                     </div>
                 </div>
+
+                <div className='px-2'>
+                    {/* edit profile */}
+                    <Link as="button" href={route('profile.edit')}>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-5 h-5 text-gray-400">
+                            <path strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M16.862 3.487a2.25 2.25 0 013.182 3.182l-10.5 10.5a2.25 2.25 0 01-1.061.592l-4.125.825a.75.75 0 01-.902-.902l.825-4.125a2.25 2.25 0 01.592-1.061l10.5-10.5z" />
+                            <path strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19.5 7.5L16.5 4.5" />
+                        </svg>
+                    </Link>
+                </div>
+
                 <div>
                     <Link as="button" method="post" href={route('logout')}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-400">
