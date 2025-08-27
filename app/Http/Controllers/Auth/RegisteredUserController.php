@@ -33,8 +33,8 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|alpha_num|unique:'.User::class,
-            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'username' => 'required|string|max:255|alpha_num|unique:' . User::class,
+            'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -45,9 +45,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'uuid' => str()->uuid(),
             'last_seen_at' => now(),
+            'status' => 'online',
         ]);
 
-//        event(new Registered($user));
+        //        event(new Registered($user));
 
         Auth::login($user);
 

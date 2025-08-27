@@ -31,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
                 'last_seen_at' => Helper::userLastActivityStatus($user->last_seen_at),
             ];
         });
+        Schema::defaultStringLength(191);
     }
 }
