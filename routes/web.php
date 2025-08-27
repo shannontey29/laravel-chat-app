@@ -40,8 +40,9 @@ Route::middleware(['auth', 'user.last.seen.at'])->group(function () {
     Route::get('/chat', [\App\Http\Controllers\ChatController::class, 'index'])->name('chat.index');
     Route::get('/chat/{user:uuid}', [\App\Http\Controllers\ChatController::class, 'show'])->name('chat.show');
     Route::post('/chat/{user:uuid}', [\App\Http\Controllers\ChatController::class, 'chat'])->name('chat.store');
+    Route::put('/chat/{chat}', [\App\Http\Controllers\ChatController::class, 'update'])->name('chat.update');
 
     Route::delete('/chat/delete/{chat}', [\App\Http\Controllers\ChatController::class, 'destroy'])->name('chat.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
