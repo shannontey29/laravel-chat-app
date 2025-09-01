@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
+  <file name="UserLastSeenAtMiddleware.php" path="\Http\Middleware">
+    <totals>
+      <lines total="27" comments="5" code="22" executable="5" executed="5" percent="100.00"/>
+      <methods count="1" tested="1" percent="100.00"/>
+      <functions count="0" tested="0" percent="0"/>
+      <classes count="1" tested="1" percent="100.00"/>
+      <traits count="0" tested="0" percent="0"/>
+    </totals>
+    <class name="App\Http\Middleware\UserLastSeenAtMiddleware" start="9" executable="5" executed="5" crap="2">
+      <namespace name="App\Http\Middleware"/>
+      <method name="handle" signature="handle(Illuminate\Http\Request $request, Closure $next): Symfony\Component\HttpFoundation\Response" start="16" end="25" crap="2" executable="5" executed="5" coverage="100"/>
+    </class>
+    <coverage>
+      <line nr="18">
+        <covered by="Tests\Feature\ChatControllerTest::test_index_shows_users_list_in_inertia"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_redirects_when_chat_with_self"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_marks_unseen_messages_as_seen_and_dispatches_read_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_store_creates_message_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_only_sender_can_update_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_soft_deletes_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_inertia_contains_grouped_messages_structure"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_page_is_displayed"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_information_can_be_updated"/>
+        <covered by="Tests\Feature\ProfileTest::test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged"/>
+        <covered by="Tests\Feature\ProfileTest::test_user_can_delete_their_account"/>
+        <covered by="Tests\Feature\ProfileTest::test_correct_password_must_be_provided_to_delete_account"/>
+      </line>
+      <line nr="19">
+        <covered by="Tests\Feature\ChatControllerTest::test_index_shows_users_list_in_inertia"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_redirects_when_chat_with_self"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_marks_unseen_messages_as_seen_and_dispatches_read_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_store_creates_message_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_only_sender_can_update_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_soft_deletes_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_inertia_contains_grouped_messages_structure"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_page_is_displayed"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_information_can_be_updated"/>
+        <covered by="Tests\Feature\ProfileTest::test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged"/>
+        <covered by="Tests\Feature\ProfileTest::test_user_can_delete_their_account"/>
+        <covered by="Tests\Feature\ProfileTest::test_correct_password_must_be_provided_to_delete_account"/>
+      </line>
+      <line nr="20">
+        <covered by="Tests\Feature\ChatControllerTest::test_index_shows_users_list_in_inertia"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_redirects_when_chat_with_self"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_marks_unseen_messages_as_seen_and_dispatches_read_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_store_creates_message_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_only_sender_can_update_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_soft_deletes_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_inertia_contains_grouped_messages_structure"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_page_is_displayed"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_information_can_be_updated"/>
+        <covered by="Tests\Feature\ProfileTest::test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged"/>
+        <covered by="Tests\Feature\ProfileTest::test_user_can_delete_their_account"/>
+        <covered by="Tests\Feature\ProfileTest::test_correct_password_must_be_provided_to_delete_account"/>
+      </line>
+      <line nr="24">
+        <covered by="Tests\Feature\ChatControllerTest::test_index_shows_users_list_in_inertia"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_redirects_when_chat_with_self"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_marks_unseen_messages_as_seen_and_dispatches_read_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_store_creates_message_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_only_sender_can_update_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_soft_deletes_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_inertia_contains_grouped_messages_structure"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_page_is_displayed"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_information_can_be_updated"/>
+        <covered by="Tests\Feature\ProfileTest::test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged"/>
+        <covered by="Tests\Feature\ProfileTest::test_user_can_delete_their_account"/>
+        <covered by="Tests\Feature\ProfileTest::test_correct_password_must_be_provided_to_delete_account"/>
+      </line>
+      <line nr="21">
+        <covered by="Tests\Feature\ChatControllerTest::test_index_shows_users_list_in_inertia"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_redirects_when_chat_with_self"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_marks_unseen_messages_as_seen_and_dispatches_read_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_store_creates_message_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_only_sender_can_update_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_update_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_soft_deletes_and_broadcasts_event"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_destroy_forbidden_for_non_sender"/>
+        <covered by="Tests\Feature\ChatControllerTest::test_show_inertia_contains_grouped_messages_structure"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_page_is_displayed"/>
+        <covered by="Tests\Feature\ProfileTest::test_profile_information_can_be_updated"/>
+        <covered by="Tests\Feature\ProfileTest::test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged"/>
+        <covered by="Tests\Feature\ProfileTest::test_user_can_delete_their_account"/>
+        <covered by="Tests\Feature\ProfileTest::test_correct_password_must_be_provided_to_delete_account"/>
+      </line>
+    </coverage>
+    <source>
+      <line no="1">
+        <token name="T_OPEN_TAG">&lt;?php</token>
+      </line>
+      <line no="2"/>
+      <line no="3">
+        <token name="T_NAMESPACE">namespace</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">App\Http\Middleware</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="4"/>
+      <line no="5">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Closure</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="6">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Illuminate\Http\Request</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="7">
+        <token name="T_USE">use</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_NAME_QUALIFIED">Symfony\Component\HttpFoundation\Response</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="8"/>
+      <line no="9">
+        <token name="T_CLASS">class</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">UserLastSeenAtMiddleware</token>
+      </line>
+      <line no="10">
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="11">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_DOC_COMMENT">/**</token>
+      </line>
+      <line no="12">
+        <token name="T_DOC_COMMENT">     * Handle an incoming request.</token>
+      </line>
+      <line no="13">
+        <token name="T_DOC_COMMENT">     *</token>
+      </line>
+      <line no="14">
+        <token name="T_DOC_COMMENT">     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next</token>
+      </line>
+      <line no="15">
+        <token name="T_DOC_COMMENT">     */</token>
+      </line>
+      <line no="16">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_PUBLIC">public</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_FUNCTION">function</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">handle</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">Request</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_COMMA">,</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Closure</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$next</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COLON">:</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Response</token>
+      </line>
+      <line no="17">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="18">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_IF">if</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_STRING">auth</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">check</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_OPEN_CURLY">{</token>
+      </line>
+      <line no="19">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_STRING">auth</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">user</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_OBJECT_OPERATOR">-&gt;</token>
+        <token name="T_STRING">update</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_OPEN_SQUARE">[</token>
+      </line>
+      <line no="20">
+        <token name="T_WHITESPACE">                </token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'last_seen_at'</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_DOUBLE_ARROW">=&gt;</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">now</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_COMMA">,</token>
+      </line>
+      <line no="21">
+        <token name="T_WHITESPACE">            </token>
+        <token name="T_CLOSE_SQUARE">]</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="22">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="23"/>
+      <line no="24">
+        <token name="T_WHITESPACE">        </token>
+        <token name="T_RETURN">return</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_VARIABLE">$next</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$request</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
+      </line>
+      <line no="25">
+        <token name="T_WHITESPACE">    </token>
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="26">
+        <token name="T_CLOSE_CURLY">}</token>
+      </line>
+      <line no="27"/>
+    </source>
+  </file>
+</phpunit>
