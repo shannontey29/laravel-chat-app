@@ -17,7 +17,7 @@ compile:
 package:
 	@mkdir -p build
 	zip -r build/chat-app.zip . -x "*.git*" "node_modules/*" "vendor/*" "storage/logs/*" "build/*"
-	@echo "📦 Application packaged at build/chat-app.zip"
+	@echo "Application packaged at build/chat-app.zip"
 
 build: install setup-env migrate compile package
-	@echo "✅ Build completed successfully!"
+	@echo "Build completed successfully!"
