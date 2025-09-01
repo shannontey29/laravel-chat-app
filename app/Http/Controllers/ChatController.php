@@ -130,4 +130,19 @@ class ChatController extends Controller
             ->values()
             ->toArray();
     }
+
+    public function update(Chat $chat, ChatRequest $request)
+    {
+        if ($chat->sender_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $chat->update([
+            'message' => $request->message,
+        ]);
+
+        broadcast(new NewMessageEvent($chat->load('receiver')))->toOthers();
+
+        return back();
+    }
 }
