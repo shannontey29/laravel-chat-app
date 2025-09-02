@@ -9,6 +9,7 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+
     services:
       mysql:
         image: mysql:8
@@ -24,10 +25,9 @@ jobs:
           --health-retries=3
 
     steps:
-      # Step 1: Checkout repo
       - uses: actions/checkout@v3
 
-      # Step 2: Setup PHP with required extensions
+      # Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -35,56 +35,88 @@ jobs:
           extensions: mbstring, bcmath, pdo_mysql, sodium, openssl
           coverage: xdebug
 
-      # Step 3: Setup Node.js for React
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # Step 4: Install Composer dependencies
+      # Cache Composer
+      - name: Cache Composer
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      # Step 5: Install NPM dependencies
+      # Cache NPM
+      - name: Cache NPM
+        uses: actions/cache@v3
+        with:
+          path: resources/js/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('resources/js/package-lock.json') }}
+
       - name: Install NPM dependencies
         working-directory: ./resources/js
         run: npm install
 
-      # Step 6: Configure .env for CI
+      # Environment setup
       - name: Setup environment
         run: |
           cp .env.example .env
           php artisan key:generate
-          # Override DB settings for CI
           sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
-          # Force bcrypt for CI to avoid hash issues
           echo "HASH_DRIVER=bcrypt" >> .env
 
-      # Step 7: Clear caches
+      # Clear Laravel caches
       - name: Clear Laravel caches
         run: |
           php artisan config:clear
           php artisan cache:clear
           php artisan route:clear
           php artisan view:clear
+          php artisan clear-compiled
 
-      # Step 8: Run migrations
+      # Wait for MySQL
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
+      # Run migrations
       - name: Run Laravel migrations
         run: php artisan migrate --force
 
-      # Step 9: Run Laravel tests
+      # Laravel tests with report
       - name: Run Laravel tests
-        run: php artisan test --env=testing
+        run: vendor/bin/phpunit --log-junit storage/test-reports/phpunit.xml
 
-      # Step 10: Build React app
+      - name: Upload Laravel test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: laravel-test-report
+          path: storage/test-reports/phpunit.xml
+
+      # Build React
       - name: Build React
         working-directory: ./resources/js
         run: npm run build
 
-      # Step 11: Run React tests
-      - name: Test React
+      # Run React tests with report
+      - name: Run React tests
         working-directory: ./resources/js
-        run: npm test -- --watchAll=false
+        run: |
+          CI=true npx jest --ci --reporters=default --reporters=jest-junit
+
+      - name: Upload React test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-test-report
+          path: ./resources/js/junit.xml
