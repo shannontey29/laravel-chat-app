@@ -1,5 +1,6 @@
 name: Laravel + React CI
 
+# Trigger CI on push or pull request to master
 on:
   push:
     branches: [master]
@@ -10,6 +11,7 @@ jobs:
   backend-frontend:
     runs-on: ubuntu-latest
 
+    # MySQL service for Laravel
     services:
       mysql:
         image: mysql:8
@@ -26,13 +28,14 @@ jobs:
 
     env:
       APP_ENV: testing
+      APP_DEBUG: true                  # Show 500 errors for test debugging
+      APP_URL: http://127.0.0.1
       DB_CONNECTION: mysql
       DB_HOST: 127.0.0.1
       DB_PORT: 3306
       DB_DATABASE: laravel_chat_app
       DB_USERNAME: root
       DB_PASSWORD: root
-      APP_URL: http://localhost
       MAIL_MAILER: log
       CACHE_DRIVER: array
       SESSION_DRIVER: array
@@ -40,26 +43,32 @@ jobs:
       SCOUT_DRIVER: database
 
     steps:
+    # Checkout code
     - name: Checkout code
       uses: actions/checkout@v4
 
+    # Set up PHP
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
         extensions: mbstring, bcmath, pdo_mysql, exif, pcntl, gd
 
+    # Install Composer dependencies
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
+    # Set up environment and clear cache
     - name: Set up environment
       run: |
         cp .env.example .env
         php artisan key:generate
         php artisan config:clear
         php artisan route:clear
+        php artisan view:clear
 
-    - name: Wait for MySQL to be ready
+    # Wait for MySQL to be ready
+    - name: Wait for MySQL
       run: |
         for i in {1..30}; do
           if mysqladmin ping -h 127.0.0.1 -uroot -proot > /dev/null 2>&1; then
@@ -70,7 +79,8 @@ jobs:
           sleep 2
         done
 
-    - name: Migrate and seed database
+    # Migrate and seed database
+    - name: Migrate & seed database
       run: php artisan migrate:fresh --seed --force
       env:
         DB_HOST: 127.0.0.1
@@ -79,35 +89,38 @@ jobs:
         DB_USERNAME: root
         DB_PASSWORD: root
 
+    # Build React frontend first (so Inertia/Vite assets exist)
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Build React frontend
+      run: |
+        npm install
+        npm run build
+      working-directory: resources/js
+
+    # Run Laravel tests and generate JUnit report
     - name: Run Laravel tests
       run: |
         mkdir -p storage/test-reports
         php artisan test --log-junit storage/test-reports/junit.xml
 
+    # Upload Laravel test report
     - name: Upload Laravel test report
       uses: actions/upload-artifact@v4
       with:
         name: laravel-junit-report
         path: storage/test-reports/junit.xml
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
-
-    - name: Install frontend dependencies
-      run: npm install
-      working-directory: resources/js
-
+    # Run frontend component tests
     - name: Run frontend component tests
       run: npm test -- --watchAll=false --ci
       working-directory: resources/js
 
-    - name: Build React frontend
-      run: npm run build
-      working-directory: resources/js
-
-    - name: Upload frontend build
+    # Upload frontend build artifact
+    - name: Upload React build
       uses: actions/upload-artifact@v4
       with:
         name: react-build
