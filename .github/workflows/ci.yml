@@ -25,10 +25,9 @@ jobs:
           --health-retries=3
 
     steps:
-      # 1. Checkout code
       - uses: actions/checkout@v3
 
-      # 2. Setup PHP
+      # Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -36,48 +35,48 @@ jobs:
           extensions: mbstring, bcmath, pdo_mysql, sodium, openssl
           coverage: xdebug
 
-      # 3. Setup Node.js
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # 4. Cache Composer
+      # Cache Composer
       - name: Cache Composer
         uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
 
-      # 5. Install Composer dependencies
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      # 6. Cache NPM
+      # Cache NPM
       - name: Cache NPM
         uses: actions/cache@v3
         with:
           path: resources/js/node_modules
           key: ${{ runner.os }}-npm-${{ hashFiles('resources/js/package-lock.json') }}
 
-      # 7. Install NPM dependencies
       - name: Install NPM dependencies
         working-directory: ./resources/js
         run: npm install
 
-      # 8. Environment setup
+      # Environment setup
       - name: Setup environment
         run: |
           cp .env.example .env
           php artisan key:generate
-          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
-          sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_test/' .env
-          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
-          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
           echo "APP_ENV=testing" >> .env
-          echo "HASH_DRIVER=bcrypt" >> .env
+          echo "DB_CONNECTION=mysql" >> .env
+          echo "DB_HOST=mysql" >> .env
+          echo "DB_PORT=3306" >> .env
+          echo "DB_DATABASE=laravel_test" >> .env
+          echo "DB_USERNAME=root" >> .env
+          echo "DB_PASSWORD=root" >> .env
+          echo "MAIL_MAILER=array" >> .env
 
-      # 9. Clear caches
+      # Clear Laravel caches
       - name: Clear Laravel caches
         run: |
           php artisan config:clear
@@ -86,41 +85,39 @@ jobs:
           php artisan view:clear
           php artisan clear-compiled
 
-      # 10. Wait for MySQL
+      # Wait for MySQL
       - name: Wait for MySQL
         run: |
-          until mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do
+          until mysqladmin ping -h mysql -u root -proot --silent; do
             echo "Waiting for MySQL..."
             sleep 2
           done
 
-      # 11. Run migrations
+      # Run migrations + seeders
       - name: Run Laravel migrations
-        run: php artisan migrate:fresh --force
+        run: php artisan migrate:fresh --seed --force
 
-      # 12. Run Laravel tests
+      # Laravel tests with report
       - name: Run Laravel tests
         run: vendor/bin/phpunit --log-junit storage/test-reports/phpunit.xml
 
-      # 13. Upload Laravel test report
       - name: Upload Laravel test report
         uses: actions/upload-artifact@v4
         with:
           name: laravel-test-report
           path: storage/test-reports/phpunit.xml
 
-      # 14. Build React
+      # Build React
       - name: Build React
         working-directory: ./resources/js
         run: npm run build
 
-      # 15. Run React tests
+      # Run React tests with report
       - name: Run React tests
         working-directory: ./resources/js
         run: |
           CI=true npx jest --ci --reporters=default --reporters=jest-junit
 
-      # 16. Upload React test report
       - name: Upload React test report
         uses: actions/upload-artifact@v4
         with:
