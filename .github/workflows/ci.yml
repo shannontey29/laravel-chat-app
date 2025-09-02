@@ -1,4 +1,4 @@
-name: Laravel + React CI
+name: Laravel Chat App CI Workflow
 
 on:
   push:
@@ -7,9 +7,8 @@ on:
     branches: [master]
 
 jobs:
-  backend-frontend:
+  laravel:
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:8
@@ -50,16 +49,13 @@ jobs:
         php-version: '8.1'
         extensions: mbstring, bcmath, pdo_mysql, exif, pcntl, gd
 
-    - name: Install Composer dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
 
-    - name: Set up environment and clear cache
-      run: |
-        cp .env.example .env
-        php artisan key:generate
-        php artisan config:clear
-        php artisan route:clear
-        php artisan view:clear
+    - name: Run build using Makefile
+      run: make build
 
     - name: Wait for MySQL
       run: |
@@ -72,26 +68,6 @@ jobs:
           sleep 2
         done
 
-    - name: Migrate & seed database
-      run: php artisan migrate:fresh --seed --force
-      env:
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: laravel_chat_app
-        DB_USERNAME: root
-        DB_PASSWORD: root
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
-
-    - name: Build React frontend
-      run: |
-        npm install
-        npm run build
-      working-directory: resources/js
-
     - name: Run Laravel tests and generate JUnit report
       run: |
         mkdir -p storage/test-reports
@@ -102,9 +78,3 @@ jobs:
       with:
         name: laravel-junit-report
         path: storage/test-reports/junit.xml
-
-    - name: Upload React build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: react-build
-        path: resources/js/build
