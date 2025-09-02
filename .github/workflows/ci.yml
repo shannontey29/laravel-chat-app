@@ -9,7 +9,7 @@ on:
 jobs:
   ci-laravel-chat-app:
     runs-on: ubuntu-latest
-
+    
     services:
       mysql:
         image: mysql:8
