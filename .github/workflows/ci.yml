@@ -25,11 +25,11 @@ jobs:
     env:
       APP_ENV: testing
       DB_CONNECTION: mysql
-      DB_HOST: 127.0.0.1
+      DB_HOST: mysql
       DB_PORT: 3306
       DB_DATABASE: laravel_chat_app
       DB_USERNAME: root
-      DB_PASSWORD:
+      DB_PASSWORD: root
       MAIL_MAILER: log
       CACHE_DRIVER: array
       SESSION_DRIVER: array
@@ -51,7 +51,7 @@ jobs:
 
     - name: Set up environment
       run: cp .env.example .env
-      
+
     - name: Generate application key
       run: php artisan key:generate
 
