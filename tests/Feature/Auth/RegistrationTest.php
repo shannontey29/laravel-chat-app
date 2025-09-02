@@ -5,6 +5,7 @@ namespace Tests\Feature\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
 
 class RegistrationTest extends TestCase
 {
@@ -21,13 +22,15 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
+            'username' => 'testuser', 
             'email' => 'test@example.com',
-            'username' => 'testuser',
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
 
-        $this->assertAuthenticated();
+        $user = User::where('email', 'test@example.com')->first();
+
+        $this->assertAuthenticatedAs($user);
         $response->assertRedirect(RouteServiceProvider::HOME);
     }
 }

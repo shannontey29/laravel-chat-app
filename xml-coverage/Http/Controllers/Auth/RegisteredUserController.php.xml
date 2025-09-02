@@ -2,16 +2,16 @@
 <phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
   <file name="RegisteredUserController.php" path="\Http\Controllers\Auth">
     <totals>
-      <lines total="58" comments="9" code="49" executable="18" executed="18" percent="100.00"/>
+      <lines total="58" comments="8" code="50" executable="19" executed="19" percent="100.00"/>
       <methods count="2" tested="2" percent="100.00"/>
       <functions count="0" tested="0" percent="0"/>
       <classes count="1" tested="1" percent="100.00"/>
       <traits count="0" tested="0" percent="0"/>
     </totals>
-    <class name="App\Http\Controllers\Auth\RegisteredUserController" start="17" executable="18" executed="18" crap="2">
+    <class name="App\Http\Controllers\Auth\RegisteredUserController" start="17" executable="19" executed="19" crap="2">
       <namespace name="App\Http\Controllers\Auth"/>
       <method name="create" signature="create(): Inertia\Response" start="22" end="25" crap="1" executable="1" executed="1" coverage="100"/>
-      <method name="store" signature="store(Illuminate\Http\Request $request): Illuminate\Http\RedirectResponse" start="32" end="56" crap="1" executable="17" executed="17" coverage="100"/>
+      <method name="store" signature="store(Illuminate\Http\Request $request): Illuminate\Http\RedirectResponse" start="32" end="56" crap="1" executable="18" executed="18" coverage="100"/>
     </class>
     <coverage>
       <line nr="24">
@@ -21,6 +21,12 @@
         <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
       </line>
       <line nr="35">
+        <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
+      </line>
+      <line nr="36">
+        <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
+      </line>
+      <line nr="37">
         <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
       </line>
       <line nr="38">
@@ -50,16 +56,13 @@
       <line nr="48">
         <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
       </line>
+      <line nr="51">
+        <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
+      </line>
       <line nr="53">
         <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
       </line>
       <line nr="55">
-        <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
-      </line>
-      <line nr="36">
-        <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
-      </line>
-      <line nr="37">
         <covered by="Tests\Feature\Auth\RegistrationTest::test_new_users_can_register"/>
       </line>
       <line nr="39">
@@ -263,13 +266,7 @@
         <token name="T_WHITESPACE"> </token>
         <token name="T_DOUBLE_ARROW">=&gt;</token>
         <token name="T_WHITESPACE"> </token>
-        <token name="T_CONSTANT_ENCAPSED_STRING">'required|string|max:255|alpha_num|unique:'</token>
-        <token name="T_WHITESPACE"> </token>
-        <token name="T_DOT">.</token>
-        <token name="T_WHITESPACE"> </token>
-        <token name="T_STRING">User</token>
-        <token name="T_DOUBLE_COLON">::</token>
-        <token name="T_CLASS">class</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'required|string|max:255|alpha_num|unique:users,username'</token>
         <token name="T_COMMA">,</token>
       </line>
       <line no="37">
@@ -278,13 +275,7 @@
         <token name="T_WHITESPACE"> </token>
         <token name="T_DOUBLE_ARROW">=&gt;</token>
         <token name="T_WHITESPACE"> </token>
-        <token name="T_CONSTANT_ENCAPSED_STRING">'required|string|email|max:255|unique:'</token>
-        <token name="T_WHITESPACE"> </token>
-        <token name="T_DOT">.</token>
-        <token name="T_WHITESPACE"> </token>
-        <token name="T_STRING">User</token>
-        <token name="T_DOUBLE_COLON">::</token>
-        <token name="T_CLASS">class</token>
+        <token name="T_CONSTANT_ENCAPSED_STRING">'required|string|email|max:255|unique:users,email'</token>
         <token name="T_COMMA">,</token>
       </line>
       <line no="38">
@@ -420,7 +411,16 @@
       <line no="50"/>
       <line no="51">
         <token name="T_WHITESPACE">        </token>
-        <token name="T_COMMENT">//        event(new Registered($user));</token>
+        <token name="T_STRING">event</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_NEW">new</token>
+        <token name="T_WHITESPACE"> </token>
+        <token name="T_STRING">Registered</token>
+        <token name="T_OPEN_BRACKET">(</token>
+        <token name="T_VARIABLE">$user</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_CLOSE_BRACKET">)</token>
+        <token name="T_SEMICOLON">;</token>
       </line>
       <line no="52"/>
       <line no="53">

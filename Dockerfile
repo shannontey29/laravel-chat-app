@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -28,6 +28,15 @@ RUN [ ! -f .env ] && cp .env.example .env || true
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
+RUN a2enmod rewrite
+
+RUN echo '<Directory /var/www/public>\n\
+    AllowOverride All\n\
+    Require all granted\n\
+    </Directory>' > /etc/apache2/conf-available/laravel.conf \
+    && a2enconf laravel
+
 
 EXPOSE 80
 CMD ["apache2-foreground"]

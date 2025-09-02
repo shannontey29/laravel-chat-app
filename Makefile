@@ -1,11 +1,11 @@
 APP_ENV=.env
 
 install:
-	composer install --no-interaction --prefer-dist
+	composer install --no-interaction --prefer-dist --ignore-platform-reqs
 	npm ci
 
 setup-env:
-	@if [ ! -f $(APP_ENV) ]; then cp .env.example $(APP_ENV); fi
+	if not exist $(APP_ENV) copy .env.example $(APP_ENV)
 	php artisan key:generate
 
 migrate:

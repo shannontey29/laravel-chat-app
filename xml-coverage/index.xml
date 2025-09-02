@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <phpunit xmlns="https://schema.phpunit.de/coverage/1.0">
-  <build time="Mon Sep 1 12:12:11 WIB 2025" phpunit="10.3.2" coverage="10.1.3">
-    <runtime name="PHP" version="8.2.12" url="https://www.php.net/"/>
+  <build time="Mon Sep 1 20:55:25 WIB 2025" phpunit="10.5.53" coverage="10.1.16">
+    <runtime name="PHP" version="8.4.8" url="https://www.php.net/"/>
     <driver name="xdebug" version="3.4.5"/>
   </build>
-  <project source="D:\class\Y3S3\SCC\Assignment2\laravel-chat-app\app">
+  <project source="C:\Users\ASUS\Desktop\laravel-chat-app\app">
     <tests>
       <test name="Tests\Unit\ChatModelTest::it_defines_expected_fillable_and_casts" size="unknown" status="success"/>
       <test name="Tests\Unit\ChatModelTest::relationships_sender_receiver_user_and_reply_work" size="unknown" status="success"/>
@@ -85,7 +85,7 @@
     </tests>
     <directory name="/">
       <totals>
-        <lines total="1650" comments="292" code="1358" executable="364" executed="339" percent="93.13"/>
+        <lines total="1650" comments="291" code="1359" executable="365" executed="340" percent="93.15"/>
         <methods count="67" tested="58" percent="86.57"/>
         <functions count="0" tested="0" percent="0"/>
         <classes count="35" tested="26" percent="74.29"/>
@@ -174,7 +174,7 @@
       </directory>
       <directory name="Http">
         <totals>
-          <lines total="1211" comments="202" code="1009" executable="309" executed="291" percent="94.17"/>
+          <lines total="1211" comments="201" code="1010" executable="310" executed="292" percent="94.19"/>
           <methods count="43" tested="36" percent="83.72"/>
           <functions count="0" tested="0" percent="0"/>
           <classes count="23" tested="16" percent="69.57"/>
@@ -182,7 +182,7 @@
         </totals>
         <directory name="Controllers">
           <totals>
-            <lines total="644" comments="70" code="574" executable="219" executed="214" percent="97.72"/>
+            <lines total="644" comments="69" code="575" executable="220" executed="215" percent="97.73"/>
             <methods count="26" tested="23" percent="88.46"/>
             <functions count="0" tested="0" percent="0"/>
             <classes count="12" tested="9" percent="75.00"/>
@@ -190,7 +190,7 @@
           </totals>
           <directory name="Auth">
             <totals>
-              <lines total="398" comments="61" code="337" executable="106" executed="101" percent="95.28"/>
+              <lines total="398" comments="60" code="338" executable="107" executed="102" percent="95.33"/>
               <methods count="15" tested="12" percent="80.00"/>
               <functions count="0" tested="0" percent="0"/>
               <classes count="9" tested="6" percent="66.67"/>
@@ -261,7 +261,7 @@
             </file>
             <file name="RegisteredUserController.php" href="Http/Controllers/Auth/RegisteredUserController.php.xml">
               <totals>
-                <lines total="58" comments="9" code="49" executable="18" executed="18" percent="100.00"/>
+                <lines total="58" comments="8" code="50" executable="19" executed="19" percent="100.00"/>
                 <methods count="2" tested="2" percent="100.00"/>
                 <functions count="0" tested="0" percent="0"/>
                 <classes count="1" tested="1" percent="100.00"/>
