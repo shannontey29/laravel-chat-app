@@ -81,11 +81,8 @@ jobs:
         php artisan test --log-junit storage/test-reports/junit.xml
 
     # Publish test results inline in GitHub UI
-    - name: Upload Laravel test results to GitHub
-      uses: dorny/test-reporter@v1
+    - name: Upload Laravel test report
+      uses: actions/upload-artifact@v4
       with:
-        name: Laravel Tests
+        name: laravel-junit-report
         path: storage/test-reports/junit.xml
-        reporter: php-junit
-        fail-on-error: true
-
