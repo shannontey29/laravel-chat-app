@@ -9,7 +9,7 @@ on:
 jobs:
   ci-laravel-chat-app:
     runs-on: ubuntu-latest
-    
+
     services:
       mysql:
         image: mysql:8
@@ -85,3 +85,11 @@ jobs:
         with:
           name: laravel-chat-app-test-report
           path: storage/test-reports/junit.xml
+
+      - name: Publish test results inline
+        uses: dorny/test-reporter@v1
+        with:
+          name: Test Results
+          path: storage/test-reports/junit.xml
+          reporter: phpunit
+          fail-on-error: true
