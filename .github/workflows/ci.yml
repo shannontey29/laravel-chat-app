@@ -73,8 +73,10 @@ jobs:
         mkdir -p storage/test-reports
         php artisan test --log-junit storage/test-reports/junit.xml
 
-    - name: Upload Laravel test report
-      uses: actions/upload-artifact@v4
+    - name: Upload Laravel test results to GitHub
+      uses: dorny/test-reporter@v1
       with:
-        name: laravel-junit-report
+        name: Laravel Tests
         path: storage/test-reports/junit.xml
+        reporter: junit
+        fail-on-error: true
