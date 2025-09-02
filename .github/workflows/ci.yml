@@ -57,6 +57,13 @@ jobs:
     - name: Run build using Makefile
       run: make build
 
+    # Upload build artifact to GitHub
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: laravel-build
+        path: build/chat-app.zip
+
     - name: Wait for MySQL
       run: |
         for i in {1..30}; do
@@ -73,6 +80,7 @@ jobs:
         mkdir -p storage/test-reports
         php artisan test --log-junit storage/test-reports/junit.xml
 
+    # Publish test results inline in GitHub UI
     - name: Upload Laravel test results to GitHub
       uses: dorny/test-reporter@v1
       with:
