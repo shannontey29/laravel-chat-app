@@ -91,5 +91,5 @@ jobs:
         with:
           name: Test Results
           path: storage/test-reports/junit.xml
-          reporter: phpunit
+          reporter: junit
           fail-on-error: true
