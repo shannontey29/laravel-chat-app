@@ -86,6 +86,6 @@ jobs:
       with:
         name: Laravel Tests
         path: storage/test-reports/junit.xml
-        reporter: java-junit
+        reporter: php-junit
         fail-on-error: true
 
