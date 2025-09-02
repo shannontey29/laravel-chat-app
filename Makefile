@@ -5,7 +5,7 @@ install:
 	npm ci
 
 setup-env:
-	if not exist $(APP_ENV) copy .env.example $(APP_ENV)
+	@test -f $(APP_ENV) || cp .env.example $(APP_ENV)
 	php artisan key:generate
 
 migrate:
