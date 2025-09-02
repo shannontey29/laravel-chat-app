@@ -88,8 +88,9 @@ jobs:
 
       - name: Publish test results inline
         uses: dorny/test-reporter@v1
+        if: always()
         with:
-          name: Test Results
+          name: PHPUnit Tests
           path: storage/test-reports/junit.xml
-          reporter: junit
+          reporter: java-junit
           fail-on-error: true
