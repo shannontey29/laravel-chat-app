@@ -50,17 +50,15 @@ jobs:
         working-directory: ./resources/js
         run: npm install
 
-      # Step 6: Configure .env for CI
+      # Step 6: Setup environment dynamically (no .env.testing needed)
       - name: Setup environment
         run: |
           cp .env.example .env
           php artisan key:generate
-          # Override DB settings for GitHub Actions
           sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
-          # Use bcrypt for testing to avoid hash errors
           echo "HASH_DRIVER=bcrypt" >> .env
 
       # Step 7: Clear caches
@@ -73,11 +71,11 @@ jobs:
 
       # Step 8: Run migrations
       - name: Run Laravel migrations
-        run: php artisan migrate --env=testing --force
+        run: php artisan migrate --force
 
-      # Step 9: Run Laravel tests
+      # Step 9: Run Laravel tests (fixed)
       - name: Run Laravel tests
-        run: php artisan test --env=testing --verbose
+        run: ./vendor/bin/phpunit --configuration phpunit.xml --colors=always --debug
 
       # Step 10: Build React app
       - name: Build React
@@ -89,8 +87,7 @@ jobs:
         working-directory: ./resources/js
         run: npm test -- --watchAll=false
 
-      # Step 12: (Optional) Start Socket.IO server
-      # Uncomment if you have integration tests that need Socket.IO
+      # Step 12: Optional Socket.IO server (if needed for integration tests)
       #- name: Start Socket.IO server
       #  working-directory: ./socket-server
       #  run: nohup node server.js &
