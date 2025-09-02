@@ -1,6 +1,5 @@
 name: Laravel + React CI
 
-# Trigger on push or pull request to main branch
 on:
   push:
     branches: [master]
@@ -8,10 +7,8 @@ on:
     branches: [master]
 
 jobs:
-  laravel-react-ci:
+  ci:
     runs-on: ubuntu-latest
-
-    # Setup MySQL service for Laravel tests
     services:
       mysql:
         image: mysql:8
@@ -27,60 +24,73 @@ jobs:
           --health-retries=3
 
     steps:
-      # 1. Checkout repository
+      # Step 1: Checkout repo
       - uses: actions/checkout@v3
 
-      # 2. Setup PHP and required extensions
+      # Step 2: Setup PHP with required extensions
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
-          extensions: mbstring, bcmath, pdo_mysql, gd
+          php-version: '8.1'
+          extensions: mbstring, bcmath, pdo_mysql, sodium, openssl
+          coverage: xdebug
 
-      # 3. Install Composer dependencies
+      # Step 3: Setup Node.js for React
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # Step 4: Install Composer dependencies
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      # 4. Copy .env and generate app key
+      # Step 5: Install NPM dependencies
+      - name: Install NPM dependencies
+        working-directory: ./resources/js
+        run: npm install
+
+      # Step 6: Configure .env for CI
       - name: Setup environment
         run: |
           cp .env.example .env
           php artisan key:generate
-          # Override DB for GitHub Actions
+          # Override DB settings for GitHub Actions
           sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
+          # Use bcrypt for testing to avoid hash errors
+          echo "HASH_DRIVER=bcrypt" >> .env
 
-      # 5. Run Laravel migrations
-      - name: Run migrations
-        run: php artisan migrate --env=testing
+      # Step 7: Clear caches
+      - name: Clear Laravel caches
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan route:clear
+          php artisan view:clear
 
-      # 6. Run Laravel tests
+      # Step 8: Run migrations
+      - name: Run Laravel migrations
+        run: php artisan migrate --env=testing --force
+
+      # Step 9: Run Laravel tests
       - name: Run Laravel tests
-        run: php artisan test
+        run: php artisan test --env=testing --verbose
 
-      # 7. Setup Node.js for frontend
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      # 8. Install NPM dependencies for React frontend
-      - name: Install NPM dependencies
-        run: npm install
+      # Step 10: Build React app
+      - name: Build React
         working-directory: ./resources/js
-
-      # 9. Build React frontend (Vite or Mix)
-      - name: Build React frontend
         run: npm run build
-        working-directory: ./resources/js
 
-      # 10. Optional: Run React tests if you have Jest
-      - name: Run React tests
+      # Step 11: Run React tests
+      - name: Test React
+        working-directory: ./resources/js
         run: npm test -- --watchAll=false
-        working-directory: ./resources/js
 
-      # 11. Optional: Start Socket.IO server (if needed for integration tests)
-      # - name: Start Socket.IO
-      #   run: nohup node server.js &
+      # Step 12: (Optional) Start Socket.IO server
+      # Uncomment if you have integration tests that need Socket.IO
+      #- name: Start Socket.IO server
+      #  working-directory: ./socket-server
+      #  run: nohup node server.js &
