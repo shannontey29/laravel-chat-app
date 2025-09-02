@@ -82,7 +82,7 @@ jobs:
     - name: Run Laravel tests
       run: |
         mkdir -p storage/test-reports
-        php artisan test -vvv --log-junit storage/test-reports/junit.xml
+        php artisan test --log-junit storage/test-reports/junit.xml
 
     - name: Upload Laravel test report
       uses: actions/upload-artifact@v4
