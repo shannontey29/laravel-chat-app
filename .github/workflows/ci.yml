@@ -62,7 +62,7 @@ jobs:
         php artisan test --log-junit storage/test-reports/junit.xml
 
     - name: Upload Laravel test report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: laravel-junit-report
         path: storage/test-reports/junit.xml
@@ -85,7 +85,7 @@ jobs:
       working-directory: resources/js
 
     - name: Upload frontend build
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: react-build
         path: resources/js/build
