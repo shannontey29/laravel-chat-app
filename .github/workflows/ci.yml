@@ -25,9 +25,10 @@ jobs:
           --health-retries=3
 
     steps:
+      # 1. Checkout code
       - uses: actions/checkout@v3
 
-      # Setup PHP
+      # 2. Setup PHP
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -35,34 +36,36 @@ jobs:
           extensions: mbstring, bcmath, pdo_mysql, sodium, openssl
           coverage: xdebug
 
-      # Setup Node.js
+      # 3. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # Cache Composer
+      # 4. Cache Composer
       - name: Cache Composer
         uses: actions/cache@v3
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
 
+      # 5. Install Composer dependencies
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      # Cache NPM
+      # 6. Cache NPM
       - name: Cache NPM
         uses: actions/cache@v3
         with:
           path: resources/js/node_modules
           key: ${{ runner.os }}-npm-${{ hashFiles('resources/js/package-lock.json') }}
 
+      # 7. Install NPM dependencies
       - name: Install NPM dependencies
         working-directory: ./resources/js
         run: npm install
 
-      # Environment setup
+      # 8. Environment setup
       - name: Setup environment
         run: |
           cp .env.example .env
@@ -71,9 +74,10 @@ jobs:
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
+          echo "APP_ENV=testing" >> .env
           echo "HASH_DRIVER=bcrypt" >> .env
 
-      # Clear Laravel caches
+      # 9. Clear caches
       - name: Clear Laravel caches
         run: |
           php artisan config:clear
@@ -82,7 +86,7 @@ jobs:
           php artisan view:clear
           php artisan clear-compiled
 
-      # Wait for MySQL
+      # 10. Wait for MySQL
       - name: Wait for MySQL
         run: |
           until mysqladmin ping -h 127.0.0.1 -u root -proot --silent; do
@@ -90,31 +94,33 @@ jobs:
             sleep 2
           done
 
-      # Run migrations
+      # 11. Run migrations
       - name: Run Laravel migrations
-        run: php artisan migrate --force
+        run: php artisan migrate:fresh --force
 
-      # Laravel tests with report
+      # 12. Run Laravel tests
       - name: Run Laravel tests
         run: vendor/bin/phpunit --log-junit storage/test-reports/phpunit.xml
 
+      # 13. Upload Laravel test report
       - name: Upload Laravel test report
         uses: actions/upload-artifact@v4
         with:
           name: laravel-test-report
           path: storage/test-reports/phpunit.xml
 
-      # Build React
+      # 14. Build React
       - name: Build React
         working-directory: ./resources/js
         run: npm run build
 
-      # Run React tests with report
+      # 15. Run React tests
       - name: Run React tests
         working-directory: ./resources/js
         run: |
           CI=true npx jest --ci --reporters=default --reporters=jest-junit
 
+      # 16. Upload React test report
       - name: Upload React test report
         uses: actions/upload-artifact@v4
         with:
