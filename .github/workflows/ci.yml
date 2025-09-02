@@ -7,8 +7,9 @@ on:
     branches: [master]
 
 jobs:
-  laravel:
+  ci-laravel-chat-app:
     runs-on: ubuntu-latest
+
     services:
       mysql:
         image: mysql:8
@@ -40,49 +41,47 @@ jobs:
       SCOUT_DRIVER: database
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.1'
-        extensions: mbstring, bcmath, pdo_mysql, exif, pcntl, gd
+      - name: Set up PHP 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, bcmath, pdo_mysql, exif, pcntl, gd
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-    - name: Run build using Makefile
-      run: make build
+      - name: Build Laravel Chat App
+        run: make build
 
-    # Upload build artifact to GitHub
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: laravel-build
-        path: build/chat-app.zip
+      - name: Upload application build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: laravel-chat-app-build
+          path: build/chat-app.zip
 
-    - name: Wait for MySQL
-      run: |
-        for i in {1..30}; do
-          if mysqladmin ping -h 127.0.0.1 -uroot -proot > /dev/null 2>&1; then
-            echo "MySQL is up!"
-            break
-          fi
-          echo "Waiting for MySQL..."
-          sleep 2
-        done
+      - name: Wait for MySQL service
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -uroot -proot > /dev/null 2>&1; then
+              echo "MySQL is ready!"
+              break
+            fi
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
 
-    - name: Run Laravel tests and generate JUnit report
-      run: |
-        mkdir -p storage/test-reports
-        php artisan test --log-junit storage/test-reports/junit.xml
+      - name: Run tests and generate JUnit report
+        run: |
+          mkdir -p storage/test-reports
+          php artisan test --log-junit storage/test-reports/junit.xml
 
-    # Publish test results inline in GitHub UI
-    - name: Upload Laravel test report
-      uses: actions/upload-artifact@v4
-      with:
-        name: laravel-junit-report
-        path: storage/test-reports/junit.xml
+      - name: Upload test report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: laravel-chat-app-test-report
+          path: storage/test-reports/junit.xml
