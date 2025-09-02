@@ -46,6 +46,11 @@ jobs:
         run: |
           cp .env.example .env
           php artisan key:generate
+          # Override DB for GitHub Actions
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=laravel_test/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
 
       # 5. Run Laravel migrations
       - name: Run migrations
