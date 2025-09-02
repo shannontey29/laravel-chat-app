@@ -78,7 +78,7 @@ jobs:
       - name: Run tests and generate JUnit report
         run: |
           mkdir -p storage/test-reports
-          php artisan test --log-junit storage/test-reports/junit.xml
+          ./vendor/bin/phpunit --log-junit storage/test-reports/junit.xml
 
       - name: Upload test report artifact
         uses: actions/upload-artifact@v4
