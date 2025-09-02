@@ -1,0 +1,81 @@
+name: Laravel + React CI
+
+# Trigger on push or pull request to main branch
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  laravel-react-ci:
+    runs-on: ubuntu-latest
+
+    # Setup MySQL service for Laravel tests
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: laravel_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      # 1. Checkout repository
+      - uses: actions/checkout@v3
+
+      # 2. Setup PHP and required extensions
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: mbstring, bcmath, pdo_mysql, gd
+
+      # 3. Install Composer dependencies
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      # 4. Copy .env and generate app key
+      - name: Setup environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      # 5. Run Laravel migrations
+      - name: Run migrations
+        run: php artisan migrate --env=testing
+
+      # 6. Run Laravel tests
+      - name: Run Laravel tests
+        run: php artisan test
+
+      # 7. Setup Node.js for frontend
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # 8. Install NPM dependencies for React frontend
+      - name: Install NPM dependencies
+        run: npm install
+        working-directory: ./resources/js
+
+      # 9. Build React frontend (Vite or Mix)
+      - name: Build React frontend
+        run: npm run build
+        working-directory: ./resources/js
+
+      # 10. Optional: Run React tests if you have Jest
+      - name: Run React tests
+        run: npm test -- --watchAll=false
+        working-directory: ./resources/js
+
+      # 11. Optional: Start Socket.IO server (if needed for integration tests)
+      # - name: Start Socket.IO
+      #   run: nohup node server.js &
