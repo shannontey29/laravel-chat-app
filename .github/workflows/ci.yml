@@ -62,7 +62,7 @@ jobs:
         working-directory: ./resources/js
         run: npm install
 
-      # Environment setup
+      # Setup environment for CI/testing
       - name: Setup environment
         run: |
           cp .env.example .env
@@ -85,10 +85,10 @@ jobs:
           php artisan view:clear
           php artisan clear-compiled
 
-      # Wait for MySQL
+      # Wait for MySQL to be ready
       - name: Wait for MySQL
         run: |
-          until mysqladmin ping -h mysql -u root -proot --silent; do
+          until mysqladmin ping -h mysql -u root -proot --silent 2>/dev/null; do
             echo "Waiting for MySQL..."
             sleep 2
           done
@@ -97,7 +97,7 @@ jobs:
       - name: Run Laravel migrations
         run: php artisan migrate:fresh --seed --force
 
-      # Laravel tests with report
+      # Run Laravel tests and generate report
       - name: Run Laravel tests
         run: vendor/bin/phpunit --log-junit storage/test-reports/phpunit.xml
 
@@ -107,12 +107,12 @@ jobs:
           name: laravel-test-report
           path: storage/test-reports/phpunit.xml
 
-      # Build React
+      # Build React app
       - name: Build React
         working-directory: ./resources/js
         run: npm run build
 
-      # Run React tests with report
+      # Run React tests and generate report
       - name: Run React tests
         working-directory: ./resources/js
         run: |
