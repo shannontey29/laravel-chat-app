@@ -9,7 +9,6 @@ on:
 jobs:
   ci-laravel-chat-app:
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:8
@@ -78,19 +77,10 @@ jobs:
       - name: Run tests and generate JUnit report
         run: |
           mkdir -p storage/test-reports
-          ./vendor/bin/phpunit --log-junit storage/test-reports/junit.xml
+          php artisan test --log-junit storage/test-reports/junit.xml
 
       - name: Upload test report artifact
         uses: actions/upload-artifact@v4
         with:
           name: laravel-chat-app-test-report
           path: storage/test-reports/junit.xml
-
-      - name: Publish test results inline
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: PHPUnit Tests
-          path: storage/test-reports/junit.xml
-          reporter: java-junit
-          fail-on-error: true
