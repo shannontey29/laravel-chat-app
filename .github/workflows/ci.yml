@@ -112,9 +112,7 @@ jobs:
           docker build -t ${{ secrets.DOCKER_USERNAME }}/laravel-chat-app:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/laravel-chat-app:latest
 
-      - name: Deploy with docker-compose
+      - name: Deploy with Docker Compose v2
         run: |
-          docker-compose down
-          docker-compose up -d --build
-
-
+          docker compose down
+          docker compose up -d --build
