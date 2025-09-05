@@ -48,7 +48,7 @@ jobs:
         with:
           php-version: '8.1'
           extensions: mbstring, bcmath, pdo_mysql, exif, pcntl, gd
-
+          coverage: pcov
       - name: Set up Node.js 20
         uses: actions/setup-node@v3
         with:
@@ -77,10 +77,16 @@ jobs:
       - name: Run tests and generate JUnit report
         run: |
           mkdir -p storage/test-reports
-          php artisan test --log-junit storage/test-reports/junit.xml
+          php artisan test --log-junit storage/test-reports/junit.xml --coverage
 
       - name: Upload test report artifact
         uses: actions/upload-artifact@v4
         with:
           name: laravel-chat-app-test-report
           path: storage/test-reports/junit.xml
+
+      - name: Upload code coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: laravel-chat-app-coverage
+          path: coverage.txt

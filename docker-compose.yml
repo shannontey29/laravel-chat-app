@@ -23,7 +23,6 @@ services:
     environment:
       MYSQL_DATABASE: laravel_chat_app
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_ROOT_HOST: '%'
     ports:
       - "3306:3306"
     volumes:
@@ -48,3 +47,5 @@ services:
 
 volumes:
   dbdata:
+
+  
